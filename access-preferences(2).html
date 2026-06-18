@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Access preferences</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: #ffffff;
+    padding: 2rem 2rem 2.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .sec-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .sec-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+  }
+
+  .sec-body {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+
+  .settings-panel {
+    background: #f7f7f5;
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    padding: 0 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 0.5px solid #e8e8e8;
+  }
+
+  .settings-row:last-child { border-bottom: none; }
+
+  .setting-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+  }
+
+  .setting-sub {
+    font-size: 11px;
+    color: #888;
+    margin-top: 2px;
+  }
+
+  .toggle {
+    width: 38px;
+    height: 22px;
+    border-radius: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 3px;
+    flex-shrink: 0;
+    background: #ccc;
+    justify-content: flex-start;
+    border: none;
+    outline: none;
+  }
+
+  .toggle:focus-visible { box-shadow: 0 0 0 3px rgba(83,74,183,0.35); }
+  .toggle.on { background: #534AB7; justify-content: flex-end; }
+
+  .toggle-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    pointer-events: none;
+  }
+
+  .divider {
+    border: none;
+    border-top: 0.5px solid #e8e8e8;
+    margin: 1.75rem 0;
+  }
+
+  /* Timer bar */
+  .timer-bar-wrap {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+  .timer-bar-wrap.visible { display: flex; }
+  .timer-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #993C1D;
+    white-space: nowrap;
+    min-width: 44px;
+  }
+  .timer-track {
+    flex: 1;
+    height: 6px;
+    background: #f0e8e5;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .timer-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: #D85A30;
+    width: 100%;
+    transition: width 1s linear;
+  }
+
+  /* Quiz */
+  .quiz-wrap {
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .quiz-header {
+    background: #EEEDFE;
+    padding: 1rem 1.25rem;
+    border-bottom: 0.5px solid #AFA9EC;
+  }
+
+  .quiz-header-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #534AB7;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  .quiz-q {
+    font-size: 13px;
+    font-weight: 500;
+    color: #26215C;
+    margin-top: 5px;
+    line-height: 1.55;
+  }
+
+  .quiz-body { padding: 1rem 1.25rem; background: #fff; }
+
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 0.5px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .opt:last-of-type { margin-bottom: 0; }
+  .opt:hover { border-color: #aaa; background: #f7f7f5; }
+  .opt.correct { border-color: #0F6E56; background: #E1F5EE; cursor: default; }
+  .opt.wrong   { border-color: #993C1D; background: #FAECE7; cursor: default; }
+  .opt.locked  { cursor: default; }
+
+  .radio {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #bbb;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .radio.c { background: #0F6E56; border-color: #0F6E56; }
+  .radio.w { background: #993C1D; border-color: #993C1D; }
+
+  .rdot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+    display: none;
+  }
+
+  .opt-text { font-size: 13px; color: #1a1a1a; line-height: 1.55; }
+  .opt-text.correct { color: #085041; }
+  .opt-text.wrong   { color: #712B13; }
+
+  .feedback {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.65;
+    display: none;
+  }
+
+  .feedback.correct { background: #E1F5EE; color: #085041; border: 0.5px solid #5DCAA5; }
+  .feedback.wrong   { background: #FAECE7; color: #712B13; border: 0.5px solid #F0997B; }
+  .feedback.show    { display: block; }
+
+  .fb-title { font-weight: 600; display: block; margin-bottom: 4px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toggle, .opt, .timer-fill { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<p class="sec-label">See it in action</p>
+<h2 class="sec-title">Try the access preferences</h2>
+<p class="sec-body">In a fully integrated system, preferences set here would propagate instantly to every connected tool. Toggle a setting below to see how it shapes the knowledge check that follows.</p>
+
+<div class="settings-panel">
+  <div class="settings-row">
+    <div>
+      <div class="setting-label">High contrast text</div>
+      <div class="setting-sub">Increase font weight and size in the quiz</div>
+    </div>
+    <button class="toggle" id="tgl-contrast" onclick="toggleSetting('contrast')" aria-pressed="false" aria-label="High contrast text">
+      <div class="toggle-thumb"></div>
+    </button>
+  </div>
+  <div class="settings-row">
+    <div>
+      <div class="setting-label">Extended time</div>
+      <div class="setting-sub">Hide the countdown timer</div>
+    </div>
+    <button class="toggle" id="tgl-time" onclick="toggleSetting('time')" aria-pressed="false" aria-label="Extended time">
+      <div class="toggle-thumb"></div>
+    </button>
+  </div>
+</div>
+
+<hr class="divider">
+
+<p class="sec-label">Knowledge check</p>
+<div class="quiz-wrap" id="quiz-wrap">
+  <div class="quiz-header">
+    <div class="quiz-header-label">Knowledge check</div>
+    <div class="quiz-q" id="quiz-q">Which of the following best describes why students with IEPs often experience cognitive overload when using current EdTech tools?</div>
+  </div>
+  <div class="quiz-body">
+
+    <div class="timer-bar-wrap" id="timer-wrap">
+      <span class="timer-label" id="timer-label">0:30</span>
+      <div class="timer-track"><div class="timer-fill" id="timer-fill"></div></div>
+    </div>
+
+    <div class="opt" id="opt-a" onclick="pick('a')">
+      <div class="radio" id="r-a"><div class="rdot" id="d-a"></div></div>
+      <div class="opt-text" id="t-a">The tools are too difficult academically and don't match the student's reading level</div>
+    </div>
+    <div class="opt" id="opt-b" onclick="pick('b')">
+      <div class="radio" id="r-b"><div class="rdot" id="d-b"></div></div>
+      <div class="opt-text" id="t-b">Students must manually re-configure their accessibility settings in every new app and assignment</div>
+    </div>
+    <div class="opt" id="opt-c" onclick="pick('c')">
+      <div class="radio" id="r-c"><div class="rdot" id="d-c"></div></div>
+      <div class="opt-text" id="t-c">Teachers don't have enough training to use adaptive tools effectively</div>
+    </div>
+    <div class="opt" id="opt-d" onclick="pick('d')">
+      <div class="radio" id="r-d"><div class="rdot" id="d-d"></div></div>
+      <div class="opt-text" id="t-d">IEPs are written in language that software cannot interpret</div>
+    </div>
+    <div class="feedback correct" id="fb-correct">
+      <span class="fb-title">&#10003; Correct.</span>
+      When each tool starts from scratch, students are responsible for managing their own accommodations — toggling text-to-speech, adjusting contrast, re-enabling extended time — before they can even begin the work. This shifts focus away from learning and places an administrative burden on the very students the tools are meant to support.
+    </div>
+    <div class="feedback wrong" id="fb-wrong">
+      <span class="fb-title">&#10007; Not quite.</span>
+      The core issue isn't content difficulty or teacher training — it's fragmentation. Because assistive tools don't share settings with each other, students must re-configure their accommodations in every app, every time. Managing access becomes its own task, competing with the actual work of learning.
+    </div>
+  </div>
+</div>
+
+<script>
+  var s = { contrast: false, time: false };
+  var done = false;
+  var timerInterval = null;
+  var timerSeconds = 30;
+  var timerRunning = false;
+
+  function toggleSetting(k) {
+    s[k] = !s[k];
+    var btn = document.getElementById('tgl-' + k);
+    btn.className = s[k] ? 'toggle on' : 'toggle';
+    btn.style.justifyContent = s[k] ? 'flex-end' : 'flex-start';
+    btn.setAttribute('aria-pressed', s[k] ? 'true' : 'false');
+    applySettings();
+  }
+
+  function applySettings() {
+    var q = document.getElementById('quiz-q');
+    var ids = ['a', 'b', 'c', 'd'];
+    var fs = s.contrast ? '15px' : '13px';
+    var fw = s.contrast ? '600' : '400';
+    q.style.fontSize = s.contrast ? '15px' : '13px';
+    q.style.fontWeight = s.contrast ? '600' : '500';
+    ids.forEach(function(i) {
+      var t = document.getElementById('t-' + i);
+      t.style.fontSize = fs;
+      t.style.fontWeight = fw;
+    });
+
+    var wrap = document.getElementById('timer-wrap');
+    if (s.time) {
+      // Extended time on — hide timer
+      wrap.classList.remove('visible');
+      stopTimer();
+    } else {
+      // Extended time off — show timer (only if quiz not answered)
+      if (!done) {
+        wrap.classList.add('visible');
+        startTimer();
+      }
+    }
+  }
+
+  function startTimer() {
+    if (timerRunning) return;
+    timerRunning = true;
+    timerSeconds = 30;
+    updateTimerDisplay();
+    timerInterval = setInterval(function() {
+      timerSeconds--;
+      updateTimerDisplay();
+      if (timerSeconds <= 0) {
+        stopTimer();
+      }
+    }, 1000);
+  }
+
+  function stopTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timerRunning = false;
+  }
+
+  function updateTimerDisplay() {
+    var label = document.getElementById('timer-label');
+    var fill = document.getElementById('timer-fill');
+    var pct = Math.max(0, (timerSeconds / 30) * 100);
+    label.textContent = '0:' + (timerSeconds < 10 ? '0' : '') + timerSeconds;
+    fill.style.width = pct + '%';
+    if (timerSeconds <= 10) {
+      fill.style.background = '#A32D2D';
+      label.style.color = '#A32D2D';
+    } else {
+      fill.style.background = '#D85A30';
+      label.style.color = '#993C1D';
+    }
+  }
+
+  function pick(choice) {
+    if (done) return;
+    done = true;
+    stopTimer();
+    document.getElementById('timer-wrap').classList.remove('visible');
+    var correct = 'b';
+    ['a', 'b', 'c', 'd'].forEach(function(o) {
+      var el = document.getElementById('opt-' + o);
+      el.onclick = null;
+      el.classList.add('locked');
+    });
+    if (choice === correct) {
+      markCorrect('b');
+      document.getElementById('fb-correct').className = 'feedback correct show';
+    } else {
+      markWrong(choice);
+      markCorrect('b');
+      document.getElementById('fb-wrong').className = 'feedback wrong show';
+    }
+  }
+
+  function markCorrect(o) {
+    document.getElementById('opt-' + o).className = 'opt correct locked';
+    document.getElementById('r-' + o).className = 'radio c';
+    document.getElementById('d-' + o).style.display = 'block';
+    document.getElementById('t-' + o).className = 'opt-text correct';
+  }
+
+  function markWrong(o) {
+    document.getElementById('opt-' + o).className = 'opt wrong locked';
+    document.getElementById('r-' + o).className = 'radio w';
+    document.getElementById('d-' + o).style.display = 'block';
+    document.getElementById('t-' + o).className = 'opt-text wrong';
+  }
+</script>
+</body>
+</html>
