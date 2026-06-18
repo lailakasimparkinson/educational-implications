@@ -9,71 +9,71 @@
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     color: #1a1a1a;
     background: #ffffff;
-    padding: 2rem 2rem 2.5rem;
-    max-width: 700px;
+    padding: 2.5rem 2.5rem 3rem;
+    max-width: 820px;
     margin: 0 auto;
   }
 
   .sec-label {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 600;
     color: #888;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    margin-bottom: 4px;
-  }
-
-  .sec-title {
-    font-size: 18px;
-    font-weight: 500;
-    color: #1a1a1a;
     margin-bottom: 6px;
   }
 
+  .sec-title {
+    font-size: 22px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+  }
+
   .sec-body {
-    font-size: 13px;
+    font-size: 15px;
     color: #555;
     line-height: 1.75;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
   }
 
   .settings-panel {
     background: #f7f7f5;
     border: 0.5px solid #ddd;
-    border-radius: 12px;
-    padding: 0 1.25rem;
-    margin-bottom: 1.5rem;
+    border-radius: 14px;
+    padding: 0 1.5rem;
+    margin-bottom: 1.75rem;
   }
 
   .settings-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 0;
+    padding: 16px 0;
     border-bottom: 0.5px solid #e8e8e8;
   }
 
   .settings-row:last-child { border-bottom: none; }
 
   .setting-label {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
     color: #1a1a1a;
   }
 
   .setting-sub {
-    font-size: 11px;
+    font-size: 13px;
     color: #888;
-    margin-top: 2px;
+    margin-top: 3px;
   }
 
   .toggle {
-    width: 38px;
-    height: 22px;
-    border-radius: 11px;
+    width: 46px;
+    height: 26px;
+    border-radius: 13px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -89,8 +89,8 @@
   .toggle.on { background: #534AB7; justify-content: flex-end; }
 
   .toggle-thumb {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: white;
     pointer-events: none;
@@ -99,54 +99,55 @@
   .divider {
     border: none;
     border-top: 0.5px solid #e8e8e8;
-    margin: 1.75rem 0;
+    margin: 2rem 0;
   }
 
-  /* Timer bar */
   .timer-bar-wrap {
     display: none;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 1rem;
+    gap: 12px;
+    margin-bottom: 1.25rem;
   }
   .timer-bar-wrap.visible { display: flex; }
+
   .timer-label {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     color: #993C1D;
     white-space: nowrap;
     min-width: 44px;
   }
+
   .timer-track {
     flex: 1;
-    height: 6px;
+    height: 7px;
     background: #f0e8e5;
-    border-radius: 3px;
+    border-radius: 4px;
     overflow: hidden;
   }
+
   .timer-fill {
     height: 100%;
-    border-radius: 3px;
+    border-radius: 4px;
     background: #D85A30;
     width: 100%;
     transition: width 1s linear;
   }
 
-  /* Quiz */
   .quiz-wrap {
     border: 0.5px solid #ddd;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
   }
 
   .quiz-header {
     background: #EEEDFE;
-    padding: 1rem 1.25rem;
+    padding: 1.25rem 1.5rem;
     border-bottom: 0.5px solid #AFA9EC;
   }
 
   .quiz-header-label {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     color: #534AB7;
     text-transform: uppercase;
@@ -154,23 +155,23 @@
   }
 
   .quiz-q {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
     color: #26215C;
-    margin-top: 5px;
+    margin-top: 6px;
     line-height: 1.55;
   }
 
-  .quiz-body { padding: 1rem 1.25rem; background: #fff; }
+  .quiz-body { padding: 1.25rem 1.5rem; background: #fff; }
 
   .opt {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    padding: 10px 12px;
+    gap: 12px;
+    padding: 13px 14px;
     border: 0.5px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 8px;
+    border-radius: 10px;
+    margin-bottom: 10px;
     cursor: pointer;
     transition: border-color 0.15s, background 0.15s;
   }
@@ -182,8 +183,8 @@
   .opt.locked  { cursor: default; }
 
   .radio {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     border: 1px solid #bbb;
     flex-shrink: 0;
@@ -197,23 +198,23 @@
   .radio.w { background: #993C1D; border-color: #993C1D; }
 
   .rdot {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: white;
     display: none;
   }
 
-  .opt-text { font-size: 13px; color: #1a1a1a; line-height: 1.55; }
+  .opt-text { font-size: 15px; color: #1a1a1a; line-height: 1.55; }
   .opt-text.correct { color: #085041; }
   .opt-text.wrong   { color: #712B13; }
 
   .feedback {
-    margin-top: 12px;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    line-height: 1.65;
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.7;
     display: none;
   }
 
@@ -221,7 +222,7 @@
   .feedback.wrong   { background: #FAECE7; color: #712B13; border: 0.5px solid #F0997B; }
   .feedback.show    { display: block; }
 
-  .fb-title { font-weight: 600; display: block; margin-bottom: 4px; }
+  .fb-title { font-weight: 600; display: block; margin-bottom: 5px; font-size: 15px; }
 
   @media (prefers-reduced-motion: reduce) {
     .toggle, .opt, .timer-fill { transition: none; }
@@ -316,9 +317,9 @@
   function applySettings() {
     var q = document.getElementById('quiz-q');
     var ids = ['a', 'b', 'c', 'd'];
-    var fs = s.contrast ? '15px' : '13px';
+    var fs = s.contrast ? '17px' : '15px';
     var fw = s.contrast ? '600' : '400';
-    q.style.fontSize = s.contrast ? '15px' : '13px';
+    q.style.fontSize = s.contrast ? '17px' : '15px';
     q.style.fontWeight = s.contrast ? '600' : '500';
     ids.forEach(function(i) {
       var t = document.getElementById('t-' + i);
@@ -328,11 +329,9 @@
 
     var wrap = document.getElementById('timer-wrap');
     if (s.time) {
-      // Extended time on — hide timer
       wrap.classList.remove('visible');
       stopTimer();
     } else {
-      // Extended time off — show timer (only if quiz not answered)
       if (!done) {
         wrap.classList.add('visible');
         startTimer();
@@ -348,9 +347,7 @@
     timerInterval = setInterval(function() {
       timerSeconds--;
       updateTimerDisplay();
-      if (timerSeconds <= 0) {
-        stopTimer();
-      }
+      if (timerSeconds <= 0) stopTimer();
     }, 1000);
   }
 
